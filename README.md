@@ -1,4 +1,4 @@
-# Greed_Mochileiro
+# Mochileiro
 
 **Número da Lista**: 13<br>
 **Conteúdo da Disciplina**: Algoritmos Ambiciosos<br>
