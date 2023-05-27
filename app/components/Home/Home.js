@@ -8,7 +8,7 @@ import mochila_2 from "../../../assets/mochila_2.png"
 export default function Home() {
     const [text, setText] = useState("")
     const [x, setX] = useState(350)
-    const [y, setY] = useState(400)
+    const [y, setY] = useState(300)
 
     return (
         <>
