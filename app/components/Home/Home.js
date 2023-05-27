@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { FAB, TextInput } from "react-native-paper";
+import { Image, View } from "react-native";
 import listBox from "../../../assets/list-box.png"
+import mochila from "../../../assets/mochila.png"
+import mochila_2 from "../../../assets/mochila_2.png"
 
 export default function Home() {
     const [text, setText] = useState("")
@@ -40,13 +43,14 @@ export default function Home() {
 
             />
             <FAB
-                visible={y < 700 ? true : false}
+                visible={y < 690 ? true : false}
                 icon={listBox}
                 onPress={() => {}}
                 style={{
                     position: "absolute",
                     left: x-20,
-                    top: y-20
+                    top: y-20,
+                    zIndex: 10
                 }}
                 color="deepskyblue"
                 onTouchMove={(e) => {
@@ -54,6 +58,28 @@ export default function Home() {
                     setY(e.nativeEvent.pageY)
                 }}
             />
+                <Image
+                    style={{
+                        position: "absolute",
+                        zIndex: 0,
+                        bottom: -150,
+                        resizeMode: "contain",
+                        width:370,
+                        height: 454
+                    }}
+                    source={mochila}
+                />
+                <Image
+                    style={{
+                        position: "absolute",
+                        zIndex: 20,
+                        bottom: -150,
+                        resizeMode: "contain",
+                        width:370,
+                        height:297
+                    }}
+                    source={mochila_2}
+                />
         </>
     )
 }
