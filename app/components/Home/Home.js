@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { TextInput } from "react-native-paper";
+import { FAB, TextInput } from "react-native-paper";
+import listBox from "../../../assets/list-box.png"
 
 export default function Home() {
     const [text, setText] = useState("")
+    const [x, setX] = useState(350)
+    const [y, setY] = useState(400)
 
     return (
         <>
@@ -36,7 +39,21 @@ export default function Home() {
                 }}
 
             />
-            
+            <FAB
+                visible={y < 700 ? true : false}
+                icon={listBox}
+                onPress={() => {}}
+                style={{
+                    position: "absolute",
+                    left: x-20,
+                    top: y-20
+                }}
+                color="deepskyblue"
+                onTouchMove={(e) => {
+                    setX(e.nativeEvent.pageX)
+                    setY(e.nativeEvent.pageY)
+                }}
+            />
         </>
     )
 }
