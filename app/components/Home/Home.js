@@ -13,6 +13,7 @@ export default function Home() {
     const [x, setX] = useState(350)
     const [y, setY] = useState(300)
     const [exibeResultado, setExibeResultado] = useState(false)
+    const [exibeAlerta, setExibeAlerta] = useState(false)
     const [editaLista, setEditaLista] = useState(false)
     const [valorTotal, setValorTotal] = useState(0)
     const [adicionarVisivel, setAdicionarVisivel] = useState(false)
@@ -53,6 +54,12 @@ export default function Home() {
      * Algoritmo da Mochila (Knapsack)
      */
     const calculaResultado = () => {
+        if (lista.length == 0) {
+            setExibeAlerta(true)
+            setX(350)
+            setY(300)
+            return
+        }
         let capacidade
 
         //Se a capacidade não tiver sido definida, por padrão ela será de 20kg.
@@ -64,7 +71,7 @@ export default function Home() {
 
         let acumulado = 0
 
-        while (capacidade) {
+        while (capacidade && lista.length) {
             //Pega o produto de maior valor da lista.
             let maior = lista[0]
             let index = 0
@@ -74,12 +81,12 @@ export default function Home() {
                     index = i
                 }
             }
-
+            
             if (maior.peso <= capacidade) {
                 capacidade -= maior.peso
                 acumulado += maior.valor
                 lista.splice(index, 1)
-
+                
                 produtos.push(maior)
             } else {
                 let valorDaFracao = capacidade * maior.valorEspecifico
