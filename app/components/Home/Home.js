@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Avatar, Button, DataTable, FAB, IconButton, Modal, Portal, Text, TextInput } from "react-native-paper";
+import { Avatar, Button, DataTable, Dialog, FAB, IconButton, Modal, Portal, Text, TextInput } from "react-native-paper";
 import { Image, ScrollView, StyleSheet } from "react-native";
 import listBox from "../../../assets/list-box.png"
 import mochila from "../../../assets/mochila.png"
@@ -14,6 +14,7 @@ export default function Home() {
     const [y, setY] = useState(300)
     const [exibeResultado, setExibeResultado] = useState(false)
     const [exibeAlerta, setExibeAlerta] = useState(false)
+    const [numAlerta, setNumAlerta] = useState(0)
     const [editaLista, setEditaLista] = useState(false)
     const [valorTotal, setValorTotal] = useState(0)
     const [adicionarVisivel, setAdicionarVisivel] = useState(false)
@@ -55,6 +56,7 @@ export default function Home() {
      */
     const calculaResultado = () => {
         if (lista.length == 0) {
+            setNumAlerta(numAlerta+1)
             setExibeAlerta(true)
             setX(350)
             setY(300)
@@ -228,6 +230,24 @@ export default function Home() {
                 >
 
                 </Modal>
+
+                <Dialog visible={exibeAlerta} onDismiss={() => setExibeAlerta(false)}>
+                    <Dialog.Title>
+                        {numAlerta < 3 ? "Atenção!" : "Preste atenção, caramba!"}
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <Text variant="bodyMedium">
+                            A lista está vazia! Adicione produtos à
+                            lista antes de movê-la para a mochila.
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button
+                            labelStyle={{color: "deepskyblue"}}
+                            onPress={() => setExibeAlerta(false)}
+                        >Ok</Button>
+                    </Dialog.Actions>
+                </Dialog>
             </Portal>
 
             <TextInput
