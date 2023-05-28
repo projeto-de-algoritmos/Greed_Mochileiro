@@ -7,6 +7,7 @@ import mochila_2 from "../../../assets/mochila_2.png"
 import sacoDeCafe from "../../../assets/sacoDeCafé.png"
 import barrasDeOuro from "../../../assets/barrasDeOuro.png"
 import tecido from "../../../assets/tecido.png"
+import { SelectList } from "react-native-dropdown-select-list";
 
 export default function Home() {
     const [text, setText] = useState("")
@@ -18,39 +19,18 @@ export default function Home() {
     const [editaLista, setEditaLista] = useState(false)
     const [valorTotal, setValorTotal] = useState(0)
     const [adicionarVisivel, setAdicionarVisivel] = useState(false)
-    
+    const [selecionado, setSelecionado] = useState("")
+    const [adicionarPeso, setAdicionarPeso] = useState("")
+    const [adicionarValor, setAdicionarValor] = useState("")
     const [produtos, setProdutos] = useState([])
-    const [lista, setLista] = useState([
-        {
-            produto: "Ouro",
-            peso: 30,
-            valor: 15,
-            valorEspecifico: 0.5,
-            icone: barrasDeOuro
-        },
-        {
-            produto: "Arroz",
-            peso: 50,
-            valor: 10,
-            valorEspecifico: 0.2,
-            icone: sacoDeCafe
-        },
-        {
-            produto: "Café",
-            peso: 10,
-            valor: 3,
-            valorEspecifico: 0.3,
-            icone: sacoDeCafe
-        },
-        {
-            produto: "Tecido",
-            peso: 40,
-            valor: 16,
-            valorEspecifico: 0.4,
-            icone: tecido
-        },
-    ])
-    
+    const [lista, setLista] = useState([])
+    const dados = [
+        {key:'0', value:'Arroz', icon: sacoDeCafe},
+        {key:'1', value:'Café', icon: sacoDeCafe},
+        {key:'2', value:'Ouro', icon: barrasDeOuro},
+        {key:'3', value:'Tecido', icon: tecido},
+    ]
+
     /**
      * Algoritmo da Mochila (Knapsack)
      */
@@ -89,14 +69,14 @@ export default function Home() {
                 acumulado += maior.valor
                 lista.splice(index, 1)
                 
-                produtos.push(maior)
+                setProdutos([...produtos, maior])
             } else {
                 let valorDaFracao = capacidade * maior.valorEspecifico
                 let sobra = {...maior}
                 maior.peso = capacidade
                 maior.valor = valorDaFracao
                 capacidade = 0
-                produtos.push(maior)
+                setProdutos([...produtos, maior])
                 acumulado += valorDaFracao
 
                 //Produto que não coube na mochila.
@@ -109,6 +89,26 @@ export default function Home() {
         setExibeResultado(true)
         setX(350)
         setY(300)
+    }
+
+    /**
+     * Adiciona produto à lista de produtos
+     */
+    const adicionarProduto = () => {
+        const novoProduto = {
+            produto: dados[selecionado].value,
+            peso: Number(adicionarPeso),
+            valor: Number(adicionarValor),
+            valorEspecifico: adicionarValor/adicionarPeso,
+            icone: dados[selecionado].icon
+        }
+
+        setLista([...lista, novoProduto])
+
+        setAdicionarVisivel(false)
+        setAdicionarPeso("")
+        setAdicionarValor("")
+        setSelecionado("")
     }
 
     return (
@@ -221,13 +221,72 @@ export default function Home() {
                  */}
                 <Modal
                     visible={adicionarVisivel}
-                    onDismiss={() => setAdicionarVisivel(false)}
+                    onDismiss={() => {
+                        setAdicionarVisivel(false)
+                        setAdicionarPeso("")
+                        setAdicionarValor("")
+                        setSelecionado("")
+                    }}
                     contentContainerStyle={{
                         ...styles.modal,
-                        height: '50%',
-                        width: '80%'
+                        height: 400,
+                        width: '80%',
+                        justifyContent: 'flex-start',
+                        paddingHorizontal: 20,
+                        paddingVertical: 60,
                     }}
                 >
+                    <Button
+                        mode="elevated"
+                        icon="plus"
+                        disabled={adicionarPeso == "" || adicionarValor == "" || selecionado == "" || adicionarPeso == 0 || adicionarPeso == 0}
+                        style={styles.botaoAdicionar}
+                        onPress={() => adicionarProduto()}
+                        labelStyle={{
+                            color: adicionarPeso == "" || adicionarValor == "" || selecionado == "" || adicionarPeso == 0 || adicionarPeso == 0 ? "gray" : "deepskyblue"
+                        }}
+                    >Adicionar</Button>
+                    
+                    <TextInput
+                        mode="outlined"
+                        value={adicionarPeso}
+                        label="Peso (kg)"
+                        keyboardType="numeric"
+                        style={{
+                            position: 'absolute',
+                            top: 150,
+                            width: '100%',
+                            alignSelf: 'center',
+                            backgroundColor: 'white',
+                        }}
+                        outlineStyle={{ borderRadius: 10 }}
+                        onChangeText={peso => setAdicionarPeso(peso.replace(/[^0-9]/g, ''))}
+                    />
+
+                    <TextInput
+                        mode="outlined"
+                        value={adicionarValor}
+                        label="Valor"
+                        keyboardType="numeric"
+                        style={{
+                            position: 'absolute',
+                            top: 250,
+                            width: '100%',
+                            alignSelf: 'center',
+                            backgroundColor: 'white',
+                        }}
+                        outlineStyle={{ borderRadius: 10 }}
+                        onChangeText={valor => setAdicionarValor(valor.replace(/[^0-9]/g, ''))}
+                    />
+
+                    <SelectList
+                        setSelected={(produto) => setSelecionado(produto)}
+                        data={dados}
+                        save="key"
+                        placeholder="Selecione um produto"
+                        dropdownStyles={{ backgroundColor: 'white'}}
+                        searchPlaceholder="Pesquisar"
+                    />
 
                 </Modal>
 
