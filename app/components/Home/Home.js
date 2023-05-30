@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { Avatar, Button, DataTable, Dialog, FAB, IconButton, Modal, Portal, Text, TextInput } from "react-native-paper";
-import { Image, ScrollView, StyleSheet } from "react-native";
-import listBox from "../../../assets/list-box.png"
-import mochila from "../../../assets/mochila.png"
-import mochila_2 from "../../../assets/mochila_2.png"
-import sacoDeCafe from "../../../assets/sacoDeCafé.png"
-import barrasDeOuro from "../../../assets/barrasDeOuro.png"
-import tecido from "../../../assets/tecido.png"
+import { Image, ScrollView } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
+import * as Produto from "../Produto/Produto"
+import { styles, ListBox, Mochila, Mochila_2 } from "./Styles";
 
 export default function Home() {
     const [text, setText] = useState("")
@@ -22,13 +18,30 @@ export default function Home() {
     const [selecionado, setSelecionado] = useState("")
     const [adicionarPeso, setAdicionarPeso] = useState("")
     const [adicionarValor, setAdicionarValor] = useState("")
+    /**
+     * Produtos adicionados à mochila
+     * @type {[{produto: String, peso: Number, valor: Number, valorEspecifico: Number, icone: String}[]]}
+     */
     const [produtos, setProdutos] = useState([])
+
+    /**
+     * Produtos presentes na lista de produtos
+     * @type {[{produto: String, peso: Number, valor: Number, valorEspecifico: Number, icone: String}[]]}
+     */
     const [lista, setLista] = useState([])
+
     const dados = [
-        {key:'0', value:'Arroz', icon: sacoDeCafe},
-        {key:'1', value:'Café', icon: sacoDeCafe},
-        {key:'2', value:'Ouro', icon: barrasDeOuro},
-        {key:'3', value:'Tecido', icon: tecido},
+        {key:'0', value:'Abacaxi', icon: Produto.Abacaxi},
+        {key:'1', value:'Arroz', icon: Produto.Arroz},
+        {key:'2', value:'Banana', icon: Produto.Banana},
+        {key:'3', value:'Barril', icon: Produto.Barril},
+        {key:'4', value:'Café', icon: Produto.Cafe},
+        {key:'5', value:'Morango', icon: Produto.Morango},
+        {key:'6', value:'Ouro', icon: Produto.Ouro},
+        {key:'7', value:'Peixe', icon: Produto.Peixe},
+        {key:'8', value:'Prata', icon: Produto.Prata},
+        {key:'9', value:'Tecido', icon: Produto.Tecido},
+        {key:'10', value:'Trigo', icon: Produto.Trigo},
     ]
 
     /**
@@ -341,7 +354,7 @@ export default function Home() {
 
             <FAB
                 visible={y < 680 ? true : false}
-                icon={listBox}
+                icon={ListBox}
                 onPress={() => setEditaLista(true)}
                 style={{
                     ...styles.fab,
@@ -366,7 +379,7 @@ export default function Home() {
                     zIndex: 0,
                     height: 454
                 }}
-                source={mochila}
+                source={Mochila}
             />
             <Image
                 style={{
@@ -374,43 +387,8 @@ export default function Home() {
                     zIndex: 20,
                     height:297
                 }}
-                source={mochila_2}
+                source={Mochila_2}
             />
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    botaoX: {
-        position: "absolute",
-        top: 10,
-        right: 10
-    },
-    botaoAdicionar: {
-        position: "absolute",
-        bottom: 10,
-        alignSelf: "center"
-    },
-    modal: {
-        backgroundColor: 'white',
-        height: '80%',
-        width: '90%',
-        alignSelf: 'center',
-        borderRadius: 20,
-    },
-    texto: {
-        position: "absolute",
-        top: 40,
-        alignSelf: "center"
-    },
-    fab: {
-        position: "absolute",
-        zIndex: 10
-    },
-    imagem: {
-        position: "absolute",
-        bottom: -150,
-        resizeMode: "contain",
-        width: 370,
-    }
-})
