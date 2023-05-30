@@ -82,14 +82,16 @@ export default function Home() {
                 acumulado += maior.valor
                 lista.splice(index, 1)
                 
-                setProdutos([...produtos, maior])
+                produtos.push(maior)
+                //setProdutos([...produtos, maior])
             } else {
                 let valorDaFracao = capacidade * maior.valorEspecifico
                 let sobra = {...maior}
                 maior.peso = capacidade
                 maior.valor = valorDaFracao
                 capacidade = 0
-                setProdutos([...produtos, maior])
+                produtos.push(maior)
+                //setProdutos([...produtos, maior])
                 acumulado += valorDaFracao
 
                 //Produto que não coube na mochila.
