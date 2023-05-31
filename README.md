@@ -9,7 +9,7 @@
 | 19/0014776  |  Israel Thalles Dutra dos Santos |
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+Esse projeto tem por objetivo apresentar o Algoritmo da Mochila por meio de um aplicativo Android, que consite em adicionar produtos em uma lista e, depois, tranferí-los para uma mochila, que pode não comportar todo o peso da mercadoria, de modo a possuir a combinação de maior preço. 
 
 ## Screenshots
 <img src="https://github.com/projeto-de-algoritmos/Greed_Mochileiro/assets/73364666/a466b721-ac06-4a59-9c97-c2191a077c0c" width="200">
